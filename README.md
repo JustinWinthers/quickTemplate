@@ -19,7 +19,7 @@ It's simple:
 
 
 ```
-npm install quickTemplate
+npm install quicktemplate
 ```
 
 ### How do I use it?
