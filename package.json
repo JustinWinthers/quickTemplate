@@ -1,5 +1,5 @@
 {
-      "name": "quickTemplate"
+      "name": "quicktemplate"
     , "email": "justin@digitaladvisors.io"
     , "description": "A light templating engine for your Node.js applications"
     , "version": "1.0.0"
