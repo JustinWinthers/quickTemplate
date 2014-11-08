@@ -31,7 +31,7 @@ can be an infinite number of levels deep.
 
 
 ```js
- var quickTemplate = require('./quickTemplate');
+ var quickTemplate = require('quickTemplate');
  var json = require('./scope.json');  //this can be a json file or any object literal
 
  quickTemplate(json, __dirname + '/partial.html', function(err, data){
