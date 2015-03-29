@@ -31,7 +31,7 @@ can be an infinite number of levels deep.
 
 
 ```js
- var quickTemplate = require('quickTemplate');
+ var quickTemplate = require('./quickTemplate');
  var json = require('./scope.json');  //this can be a json file or any object literal
 
  quickTemplate(json, __dirname + '/partial.html', function(err, data){
@@ -48,13 +48,32 @@ You can send in an html string as well instead of a path to a file.
  for the tokenLeft and tokenRight properties.
 
 ```js
- quickTemplate(json, "<p><% foo  %>  <span> <% bar %> </span></p>", {string:true, tokenLeft:'<%', tokenRight:'%>'}, function(err, data){
+ quickTemplate(json, "<p>{{ foo  }}  <span> {{ bar }} </span></p>", {string:true}, function(err, data){
  console.log (data);
  });
 
 ```
 
 in the above example the json object would look like:
+
+```
+ {"foo":"some value","bar":"some other value"}
+```
+
+## Customize your template tokens
+
+Using the example above, you can use any delimiter you choose in your document.  quickTemplate defaults to
+double mustaches, but you can use the tokenLeft and tokenRight options to customize the tokens used as
+in this example....
+
+```js
+ quickTemplate(json, "<p><% foo  %>  <span> <% bar %> </span></p>", {string:true, tokenLeft:'<%', tokenRight:'%>'}, function(err, data){
+ console.log (data);
+ });
+
+```
+
+in the above example the json object would still look exactly the same:
 
 ```
  {"foo":"some value","bar":"some other value"}
