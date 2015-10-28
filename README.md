@@ -55,14 +55,17 @@ You can send in an html string as well instead of a path to a file.
  for the tokenLeft and tokenRight properties.
 
 ```js
- var html = quickTemplate(json, "<p> ${foo}  <span> ${bar} </span></p>", {string:true});
+
+ let obj = {"foo":"some value","bar":"some other value"}
+
+    ,html = quickTemplate( obj, "<p> ${foo}  <span> ${bar} </span></p>", {string:true} );
 
 ```
 
-in the above example the json object would look like:
+in the above example the json object or object literal would look like:
 
 ```
- {"foo":"some value","bar":"some other value"}
+
 ```
 
 ## Customize your token delimeters to use Angular or Handlebars style
@@ -72,17 +75,17 @@ ES6 delimiters, but you can use the tokenLeft and tokenRight options to customiz
 in this example....
 
 ```js
- var html = quickTemplate(json, "<p><% foo  %>  <span> <% bar %> </span></p>", {string:true, tokenLeft:'<%', tokenRight:'%>'});
+ let html = quickTemplate(json, "<p><% foo  %>  <span> <% bar %> </span></p>", {string:true, tokenLeft:'<%', tokenRight:'%>'});
 
 ```
 
 or if you want to use some Angular views you have laying around...
 ```js
- var html = quickTemplate(json, "<p>{{foo}}  <span> {{bar}} </span></p>", {string:true, tokenLeft:'<%', tokenRight:'%>'});
+ let html = quickTemplate(json, "<p>{{foo}}  <span> {{bar}} </span></p>", {string:true, tokenLeft:'<%', tokenRight:'%>'});
 
 ```
 
-in the above examples the json object would still look exactly the same:
+in the above examples the json object or object literal would still look exactly the same:
 
 ```
  {"foo":"some value","bar":"some other value"}
