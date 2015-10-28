@@ -2,7 +2,7 @@
       "name": "quicktemplate"
     , "email": "justin@digitaladvisors.io"
     , "description": "A light templating engine for your Node.js applications"
-    , "version": "2.0.1"
+    , "version": "2.0.3"
     , "keywords": ["template", "templating", "templating engine", "template engine"]
     , "main": "./src/quickTemplate.js"
     , "homepage": "https://github.com/JustinWinthers/quickTemplate"
