@@ -4,6 +4,14 @@
 template compiler whereby you can easily use Angular.JS notation or simply specify the type
 of notation you prefer to use.
 
+## Notes about this verion 2.+
+
+If you are using earlier versions of quickTemplate, this is a BREAKING change so don't upgrade until you've
+read the documentation below.  Major changes include getting rid of callbacks all together.  A promise
+is NOT returned since this is primarily non IO code with the exception of reading a file with your template
+(for which quickTemplate now reads synchronously).  Additionally, the default tokens for variable replacement
+in your template are now the ES6 tokens ${foo}.
+
 ## The low down
 
 QuickTemplate.js is for simple templates.  Currently it will not handle array values in a JavaScript
