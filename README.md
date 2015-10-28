@@ -25,7 +25,7 @@ npm install quicktemplate
 ### How do I use it?
 The most common example of how to use this tool follows.  Send in a
 an object literal and path to an html template.  The default
-tokens for finding a variable to replace are ES6 tokens ${ and } for easy
+token delimeters for finding a variable to replace are ES6 tokens ${ and } for easy
 transition to ES6 templates.  The object property names must match the variable
 names in the template.  The object
 can be an infinite number of levels deep.
@@ -47,7 +47,7 @@ You can send in an html string as well instead of a path to a file.
  for the tokenLeft and tokenRight properties.
 
 ```js
- var html = quickTemplate(json, "<p>{{ foo  }}  <span> {{ bar }} </span></p>", {string:true});
+ var html = quickTemplate(json, "<p> ${foo}  <span> ${bar} </span></p>", {string:true});
 
 ```
 
