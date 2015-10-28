@@ -12,8 +12,8 @@
 
  Example program:
 
- var quickTemplate = require('./quickTemplate');
- var json = require('./scope.json');  //this can be a json file or any object literal
+ var quickTemplate = require('quickTemplate');
+ var json = require('somefile_with_json_in_it.json');  //this can be a json file or any object literal
 
  quickTemplate(json, __dirname + '/partial.html', function(err, data){
  console.log (data);
@@ -25,9 +25,7 @@
  as part of the options object as well by substituting your preferred values
  for the tokenLeft and tokenRight properties.
 
- quickTemplate(json, "<p><% foo  %>  <span> <% bar %> </span></p>", {string:true, tokenLeft:'<%', tokenRight:'%>'}, function(err, data){
- console.log (data);
- });
+ var data = quickTemplate(json, "<p><% foo  %>  <span> <% bar %> </span></p>", {string:true, tokenLeft:'<%', tokenRight:'%>'});
 
  in the above example the json object would look like:
 
@@ -36,22 +34,31 @@
  */
 
 
-module.exports = function (scope, path, options, callback){
+module.exports = function (scope, path, options){
 
-    var fs = require('fs'), tokenLeft = options.tokenLeft||'{{', tokenRight = options.tokenRight||'}}', counter, html;
+    var fs = require('fs'), tokenLeft = '\\${', tokenRight = '}', counter, html;
 
-    if (typeof options === 'function' && !callback) callback = options;
-    if (typeof scope !== 'object') { callback('Quicktemplate object parameter is not an object',undefined); return; }
+    if (options){
+        tokenLeft = options.tokenLeft || tokenLeft;
+        tokenRight = options.tokenRight || tokenRight;
+    }
 
-    if (options.string) formatHTML(path);
-    else getHTMLFile();
+    if (typeof scope !== 'object') { return 'Quicktemplate object parameter is not an object'; }
+
+    if (options && options.string) formatHTML(path);
+    else {
+        getHTMLFile();
+    }
+
+    return html;
 
     function getHTMLFile(){
-        fs.readFile (path, 'utf8', function(err, data){
-            if (err) { callback('Quicktemplate file read error: ' + path, undefined); return; }
-            formatHTML(data)})}
+        var data = fs.readFileSync (path, 'utf8');
+        formatHTML(data)
+    }
 
     function formatHTML(data){
+
         html = data;
         html = (function removeAngularFilters(){
             html = html.replace(new RegExp("\\|.*"+tokenRight),function(str){
@@ -62,7 +69,9 @@ module.exports = function (scope, path, options, callback){
         })().replace(new RegExp(tokenLeft+"\\s+", "g"),tokenLeft)
             .replace(new RegExp("\\s+"+tokenRight, "g"),tokenRight);
 
-        parser(scope)}
+        parser(scope);
+
+    }
 
     function parser(obj, depth, parents){
         if (parents===undefined && depth===undefined){parents=[]; depth=0; counter=0}
@@ -74,8 +83,10 @@ module.exports = function (scope, path, options, callback){
                     parser(obj[keys], depth+1, parents);
                 } else {
                     var name =  depth ? (depth?parents.join('.'):'') + '.' + keys : keys;
-                    html = html.replace(new RegExp(tokenLeft+name+tokenRight, "g"), obj[keys]);
+                    var re = new RegExp(tokenLeft+name+tokenRight, 'g');
+                    html = html.replace(re, obj[keys]);
                 }
                 parents.splice(depth, Object.keys(obj).length - depth);
                 if (depth===0 ) counter += 1;
-                if (counter === Object.keys(obj).length) callback (null, html)}}}};
+            }}}
+};

@@ -25,18 +25,17 @@ npm install quicktemplate
 ### How do I use it?
 The most common example of how to use this tool follows.  Send in a
 an object literal and path to an html template.  The default
-tokens for finding a variable to replace are {{ and }}.  The object
-property names must match the variable names in the template.  The object
+tokens for finding a variable to replace are ES6 tokens ${ and } for easy
+transition to ES6 templates.  The object property names must match the variable
+names in the template.  The object
 can be an infinite number of levels deep.
 
 
 ```js
- var quickTemplate = require('./quickTemplate');
- var json = require('./scope.json');  //this can be a json file or any object literal
+ var quickTemplate = require('quickTemplate');
+ var json = require('some_file_with_json_in_it.json');  //this can be a json file or any object literal
 
- quickTemplate(json, __dirname + '/partial.html', function(err, data){
- console.log (data);
- });
+ var html = quickTemplate(json, __dirname + '/partial.html');
 ```
 
 ## Sending in an html string instead of file
@@ -48,9 +47,7 @@ You can send in an html string as well instead of a path to a file.
  for the tokenLeft and tokenRight properties.
 
 ```js
- quickTemplate(json, "<p>{{ foo  }}  <span> {{ bar }} </span></p>", {string:true}, function(err, data){
- console.log (data);
- });
+ var html = quickTemplate(json, "<p>{{ foo  }}  <span> {{ bar }} </span></p>", {string:true});
 
 ```
 
@@ -60,20 +57,24 @@ in the above example the json object would look like:
  {"foo":"some value","bar":"some other value"}
 ```
 
-## Customize your template tokens
+## Customize your token delimeters to use Angular or Handlebars style
 
 Using the example above, you can use any delimiter you choose in your document.  quickTemplate defaults to
-double mustaches, but you can use the tokenLeft and tokenRight options to customize the tokens used as
+ES6 delimiters, but you can use the tokenLeft and tokenRight options to customize the tokens used as
 in this example....
 
 ```js
- quickTemplate(json, "<p><% foo  %>  <span> <% bar %> </span></p>", {string:true, tokenLeft:'<%', tokenRight:'%>'}, function(err, data){
- console.log (data);
- });
+ var html = quickTemplate(json, "<p><% foo  %>  <span> <% bar %> </span></p>", {string:true, tokenLeft:'<%', tokenRight:'%>'});
 
 ```
 
-in the above example the json object would still look exactly the same:
+or if you want to use some Angular views you have laying around...
+```js
+ var html = quickTemplate(json, "<p>{{foo}}  <span> {{bar}} </span></p>", {string:true, tokenLeft:'<%', tokenRight:'%>'});
+
+```
+
+in the above examples the json object would still look exactly the same:
 
 ```
  {"foo":"some value","bar":"some other value"}
